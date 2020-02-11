@@ -1,0 +1,23 @@
+<div class="card mx-auto my-5 bg-primary" style=" width: 40rem;">
+    <div class="card-body">
+        <form action="/send-email" method="post">
+            <div class="input-group input-group-lg mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="far fa-envelope"></i></span>
+                </div>
+                <input name="to" type="email" class="form-control" placeholder="Address">
+            </div>
+            <div class="input-group input-group-lg mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-heading"></i></span>
+                </div>
+                <input name="subject" type="text" class="form-control" placeholder="Subject">
+            </div>
+
+            <textarea name="message" type="text" class="form-control mb-4" placeholder="Message"
+                style="height: 10rem;"></textarea>
+            <button type="submit" class="btn btn-primary btn-lg btn-block"><i
+                    class="fas fa-paper-plane mr-2"></i>Send</button>
+        </form>
+    </div>
+</div>

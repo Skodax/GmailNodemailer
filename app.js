@@ -1,13 +1,23 @@
 const express = require('express');
+const exphbs = require('express-handlebars');
 const email = require('./helpers/email');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// MIDDLEWARE
+app.use(express.json({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
+
+app.engine('handlebars', exphbs());
+app.set('view engine', 'handlebars');
+
+// HOME PAGE
 app.get('/', (req, res) => {
-  res.send('<a href="/send-email">Send Email</a>');
+  res.render('index');
 });
 
-app.get('/send-email', (req, res) => {
+app.post('/send-email', (req, res) => {
   if (!email.getProfile()) {
     res.redirect('/auth/gmail');
   } else {
@@ -16,9 +26,9 @@ app.get('/send-email', (req, res) => {
     transporter.sendMail(
       {
         from: profile.email,
-        to: 'jangomezescoda@gmail.com',
-        subject: 'Message2',
-        text: 'I hope this message gets through!'
+        to: req.body.to,
+        subject: req.body.subject,
+        text: req.body.message
       },
       (err, info) => {
         if (err) {
@@ -31,6 +41,8 @@ app.get('/send-email', (req, res) => {
   }
 });
 
+// AUTHENTICATION ROUTE
 app.use('/auth', require('./routes/auth'));
 
+// INITIATE SERVER
 app.listen(PORT, () => console.log(`Server started on Port ${PORT}`));
