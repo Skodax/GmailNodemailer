@@ -1,11 +1,34 @@
 const express = require('express');
+const email = require('./helpers/email');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const emailAccount = require('./helpers/email');
-
 app.get('/', (req, res) => {
-  res.send('Go to /auth/gmail to enable your mail account');
+  res.send('<a href="/send-email">Send Email</a>');
+});
+
+app.get('/send-email', (req, res) => {
+  if (!email.getProfile()) {
+    res.redirect('/auth/gmail');
+  } else {
+    const transporter = email.getTransporter();
+    const profile = email.getProfile();
+    transporter.sendMail(
+      {
+        from: profile.email,
+        to: 'jangomezescoda@gmail.com',
+        subject: 'Message2',
+        text: 'I hope this message gets through!'
+      },
+      (err, info) => {
+        if (err) {
+          res.send('Error has ocurred');
+        } else {
+          res.send('Email sent!');
+        }
+      }
+    );
+  }
 });
 
 app.use('/auth', require('./routes/auth'));

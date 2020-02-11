@@ -17,9 +17,21 @@ let profile = null;
 // Nodemailer Transporter
 let transporter = null;
 
+module.exports.generateAuthUrl = async () => {
+  const authorizeUrl = await oauth2Client.generateAuthUrl({
+    access_type: 'offline',
+    scope: [
+      'https://mail.google.com/',
+      'https://www.googleapis.com/auth/userinfo.profile'
+    ]
+  });
+
+  return authorizeUrl;
+};
+
 module.exports.setAccount = async authorizationCode => {
   // Get access and refresh token from Google
-  const { tokens } = await oauth2Client.getToken(req.query.code);
+  const { tokens } = await oauth2Client.getToken(authorizationCode);
   oauth2Client.credentials = tokens;
 
   // OAuth API
