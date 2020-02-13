@@ -1,0 +1,50 @@
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/settings/accounts">
+                            <span data-feather="home"></span>
+                            <i class="fas fa-user-circle mr-2"></i>Accounts<span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div style="height: 48px;"></div>
+
+            {{#if email}}
+            <h5 class="text-secondary mb-4"><i class="far fa-envelope mr-2"></i>Gmail account</h5>
+            <div class="card mb-3" style="max-width: 40rem;">
+                <div class="row align-items-center no-gutters">
+                    <div class="col-md-2 p-3">
+                        <img src="{{email.picture}}" class="card-img rounded-circle" alt="profile picture"
+                            style="height: 5rem; width: 5rem;">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{email.name}}</h5>
+                            <p class="card-text">{{email.email}}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="/auth/gmail" class="btn btn-primary my-auto">Change</a>
+                    </div>
+                </div>
+            </div>
+            {{else}}
+            <div class="row justify-content-between">
+                <div class="col-md-6">
+                    <h5 class="text-secondary mb-4"><i class="far fa-envelope mr-2"></i>Gmail account</h5>
+                </div>
+                <div class="col-md-6">
+                    <a href="/auth/gmail" class="btn btn-primary">Add Account</a>
+                </div>
+            </div>
+            {{/if}}
+        </main>
+        </divs>
+    </div>

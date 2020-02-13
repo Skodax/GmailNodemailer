@@ -12,6 +12,9 @@ app.use(express.urlencoded({ extended: false }));
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
+// STATIC FILES
+app.use('/public', express.static('public'));
+
 // HOME PAGE
 app.get('/', (req, res) => {
   res.render('index');
@@ -43,6 +46,7 @@ app.post('/send-email', (req, res) => {
 
 // AUTHENTICATION ROUTE
 app.use('/auth', require('./routes/auth'));
+app.use('/settings', require('./routes/settings'));
 
 // INITIATE SERVER
 app.listen(PORT, () => console.log(`Server started on Port ${PORT}`));
