@@ -1,5 +1,7 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
+const flash = require('connect-flash');
+const session = require('express-session');
 const email = require('./helpers/email');
 
 const app = express();
@@ -11,6 +13,27 @@ app.use(express.urlencoded({ extended: false }));
 
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
+
+//Express session
+app.use(
+  session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+  })
+);
+
+//Connect flash
+app.use(flash());
+
+//Global Varialbes - MIDDLEWARE
+app.use(function(req, res, next) {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+
+  // call next piece of middleware
+  next();
+});
 
 // STATIC FILES
 app.use('/public', express.static('public'));
@@ -35,9 +58,11 @@ app.post('/send-email', (req, res) => {
       },
       (err, info) => {
         if (err) {
-          res.send('Error has ocurred');
+          req.flash('error_msg', "Email hasn't been set due to an error");
+          res.redirect('/');
         } else {
-          res.send('Email sent!');
+          req.flash('success_msg', `Email sent to ${req.body.to}`);
+          res.redirect('/');
         }
       }
     );

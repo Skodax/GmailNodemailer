@@ -9,6 +9,7 @@ router.get('/', (req, res) => {
 
 router.get('/accounts', (req, res) => {
   res.render('settings/accounts', {
+    layout: 'settings',
     email: email.getProfile()
   });
 });

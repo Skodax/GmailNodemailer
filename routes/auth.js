@@ -14,6 +14,7 @@ router.get('/gmail', async (req, res) => {
 // @access  Public
 router.get('/gmail/callback', async (req, res) => {
   await email.setAccount(req.query.code);
+  req.flash('success_msg', 'Email account set up');
   res.redirect('/');
 });
 
